@@ -64,9 +64,7 @@ dijkstra(n: int, edges: list[tuple[int, int, int]], start: int) -> list
 
 import heapq
 
-
 INF = float('inf')
-
 
 def dijkstra(n: int, edges: list, start: int) -> list:
     """
@@ -79,13 +77,62 @@ def dijkstra(n: int, edges: list, start: int) -> list:
     # TODO: dist 를 INF 로 초기화하고 dist[start] = 0
     # TODO: 우선순위 큐(heapq)로 BFS-like 최단경로 탐색
     # TODO: dist 반환
-    pass
+    
+    
+    
+    
+    """ NOTE
+    Edges: list[(start_end, end_node, weight)]
+    Queue needs tuples of (distance_from_start, end_node)
+    When node is popped from queue, it means 
+    For each node, check if it is in visited first, and if not in visited add to queue
+    Why have a visited list?
+        To reduce redundant calculations. 
+    """
+    
+    # Create adjacency list from edges
+    # (u, v, w) = (startNode, endNode, weight)
+    # For each (u, v, w), save (v, w) in graph[u] = []
+    graph = [[] for _ in range(n)]
+    for e in edges:
+        graph[e[0]].append((e[1], e[2]))
+    # print(f"Edges, {edges}")
+    # print(f"Graph, {graph}")
+    
+    
+    # Initialize distance list and create priority queue
+    dist = [INF] * n
+    dist[start] = 0
+    pq = []
+    heapq.heappush(pq, (0, start))
+    visited = [start]
+
+    while len(pq) > 0:
+        current = pq.pop()         # First one to return is (0, start)
+        d = current[0]
+        u = current[1]
+        if d > dist[u]:            # If shortest path in dist[] is already shorter, continue to next iteration
+            continue
+        for i in graph[u]:      # Iterates through each (v, w) in current index of graph list
+            v = i[0]
+            w = i[1]
+            if dist[v] > dist[u] + w :
+                dist[v] = dist[u] + w
+                heapq.heappush(pq, (dist[v], v))
+            visited.append(u)
+        
+
+    return dist
+
+
+
+
+
 
 
 def _format(dist):
     """출력 표기를 위한 헬퍼: float('inf') 는 'INF' 로 보여줌"""
     return [('INF' if x == INF else x) for x in dist]
-
 
 if __name__ == "__main__":
     print("[테스트 1] 예시 그래프 (5개 정점)")
