@@ -48,8 +48,7 @@ def climb_stairs(n):
         n번째 계단까지 오르는 방법의 수
     """
     # TODO: 특별한 경우 처리    
-    if n < 0:
-        return n
+    if n < 0: return 0
     
     # TODO: dp 배열 생성 및 초기화
     dp = [0] * (n+1)
