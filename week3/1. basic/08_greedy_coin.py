@@ -40,6 +40,7 @@ def make_change_greedy(change, coins):
     Returns:
         (총 개수, {동전: 개수} 딕셔너리)
     """
+    coins = sorted(coins, reverse=True)
     result = {}
     total_coins = 0
     
